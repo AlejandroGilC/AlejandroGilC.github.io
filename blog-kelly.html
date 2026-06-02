@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invertir no es solo acertar — Blog · Alejandro Gil Castro</title>
+<meta name="description" content="El criterio de Kelly explicado de forma accesible: por qué la gestión del riesgo es tan importante como acertar.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0d2340;--navy-deep:#081628;--blue:#1c4e80;--green:#1f7a5a;--green-bright:#27a37a;
+  --gold:#c8a24a;--gold-light:#e0c074;--paper:#f7f5ef;--paper-warm:#efe9dc;
+  --ink:#16202e;--ink-soft:#3f4a5a;--line:rgba(13,35,64,.12);--shadow:0 10px 40px rgba(13,35,64,.10);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;color:var(--ink);background:var(--paper);line-height:1.75;font-weight:300}
+h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;line-height:1.15;letter-spacing:-.01em}
+a{color:inherit;text-decoration:none}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(247,245,239,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+nav .wrap{max-width:760px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-family:'Fraunces',serif;font-weight:600;font-size:1.1rem;color:var(--navy)}
+.logo span{color:var(--gold)}
+.back{font-size:.9rem;color:var(--ink-soft);display:inline-flex;align-items:center;gap:7px;transition:color .2s}
+.back:hover{color:var(--navy)}
+
+.hero{
+  padding:140px 0 60px;
+  background:
+    radial-gradient(ellipse 70% 60% at 80% 10%, rgba(31,122,90,.10), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 10% 50%, rgba(200,162,74,.08), transparent 55%),
+    var(--paper);
+  border-bottom:1px solid var(--line);
+}
+.article-wrap{max-width:760px;margin:0 auto;padding:0 32px}
+.kicker{font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;color:var(--green);font-weight:500;margin-bottom:22px;display:flex;align-items:center;gap:12px}
+.kicker::before{content:'';width:28px;height:1px;background:var(--green)}
+.hero h1{font-size:clamp(2.1rem,5vw,3.4rem);color:var(--navy);margin-bottom:24px;letter-spacing:-.02em}
+.hero .standfirst{font-size:1.2rem;color:var(--ink-soft);font-family:'Fraunces',serif;font-style:italic;max-width:60ch}
+.byline{margin-top:32px;display:flex;align-items:center;gap:14px;font-size:.9rem;color:var(--ink-soft)}
+.byline .dot{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--navy-deep));display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Fraunces',serif;font-weight:600}
+
+article{padding:64px 0 90px}
+article .article-wrap > *{margin-bottom:26px}
+article h2{font-size:1.7rem;color:var(--navy);margin-top:48px;margin-bottom:8px;position:relative;padding-left:20px}
+article h2::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:4px;background:var(--gold);border-radius:2px}
+article p{font-size:1.12rem;color:var(--ink)}
+article p strong{font-weight:500;color:var(--navy)}
+.pullquote{
+  border-left:none;background:linear-gradient(120deg,var(--paper-warm),transparent);
+  padding:32px 36px;margin:44px 0;border-radius:4px;position:relative;
+}
+.pullquote p{font-family:'Fraunces',serif;font-style:italic;font-size:1.45rem;color:var(--navy);line-height:1.4;margin:0}
+.pullquote::before{content:'"';position:absolute;top:-10px;left:14px;font-family:'Fraunces',serif;font-size:4rem;color:var(--gold);opacity:.4}
+.analogy{
+  background:var(--navy);color:#e8edf3;padding:30px 34px;border-radius:5px;margin:40px 0;
+  position:relative;overflow:hidden;
+}
+.analogy::after{content:'';position:absolute;right:-30px;top:-30px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(200,162,74,.25),transparent 70%)}
+.analogy .lbl{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light);margin-bottom:10px}
+.analogy p{color:rgba(232,237,243,.9);font-size:1.08rem;margin:0;position:relative;z-index:2}
+.closing{
+  margin-top:54px;padding-top:40px;border-top:1px solid var(--line);
+}
+.closing .q{font-family:'Fraunces',serif;font-size:1.6rem;font-style:italic;color:var(--green);line-height:1.35}
+
+.article-foot{background:var(--paper-warm);padding:50px 0;border-top:1px solid var(--line)}
+.article-foot .article-wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+.article-foot p{font-size:1rem;color:var(--ink-soft)}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:13px 24px;border-radius:2px;font-size:.95rem;font-weight:500;transition:all .25s ease;border:1px solid var(--navy);color:var(--navy)}
+.btn:hover{background:var(--navy);color:#fff;transform:translateY(-2px)}
+
+@media(max-width:560px){
+  article p{font-size:1.05rem}
+  .pullquote p{font-size:1.2rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="index.html" class="logo">Alejandro Gil<span>.</span></a>
+    <a href="index.html#blog" class="back">← Volver al blog</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="article-wrap">
+    <div class="kicker">Finanzas cuantitativas · Gestión del riesgo</div>
+    <h1>Invertir no es solo acertar, sino también saber cuánto te juegas</h1>
+    <p class="standfirst">Una idea de 1956 que sigue explicando por qué las mejores estrategias no son las que más aciertan, sino las que saben cuánto arriesgar.</p>
+    <div class="byline">
+      <span class="dot">A</span>
+      <span>Por <strong style="color:var(--navy);font-weight:500">Alejandro Gil Castro</strong> · Lectura de 5 min</span>
+    </div>
+  </div>
+</div>
+
+<article>
+  <div class="article-wrap">
+    <p>Imagina que has encontrado una estrategia de inversión que funciona mejor que lanzar una moneda al aire. Parece una buena noticia, pero enseguida aparece una duda importante. <strong>¿Cuánto dinero deberías arriesgar cada vez?</strong> Invertir poco no aprovecha del todo la ventaja, pero invertir demasiado puede hacer que una mala racha te deje fuera. Esa es precisamente la cuestión que John L. Kelly Jr. empezó a responder en 1956.</p>
+
+    <h2>Tener ventaja no significa apostar sin límites</h2>
+    <p>Cuando hablamos de inversión, muchas veces pensamos que lo más importante es acertar: comprar antes de que suba el precio, vender antes de que caiga o encontrar una señal que otros no han visto. Pero el criterio de Kelly cambia un poco la pregunta. No se trata solo de saber si una decisión tiene buenas probabilidades, sino de decidir <strong>cuánto capital tiene sentido poner en juego</strong>.</p>
+    <p>Un ejemplo sencillo es imaginar una moneda que no es totalmente justa: sale cara el 60% de las veces y cruz el 40%. Si siempre apuestas a cara, tienes ventaja. Ahora bien, apostar todo tu dinero a cara en cada lanzamiento sería una mala estrategia, porque tarde o temprano va a salir cruz. Y cuando llegue ese momento, lo perderás todo y ya no podrás seguir jugando.</p>
+    <div class="pullquote">
+      <p>Una ventaja solo sirve si sobrevives el tiempo suficiente para aprovecharla.</p>
+    </div>
+
+    <h2>La información también tiene precio</h2>
+    <p>Lo curioso es que el artículo de Kelly no nació directamente como un manual para inversores. Su idea original estaba relacionada con la <strong>teoría de la información</strong>, un campo que estudia cómo se transmite y se aprovecha la información. Kelly se hizo una pregunta: si una persona recibe una señal útil sobre lo que puede pasar en el futuro, aunque esa señal no sea perfecta, ¿cuánto valor real tiene?</p>
+    <p>Dicho de otra forma, es como recibir pistas antes de tomar una decisión. Algunas pistas serán acertadas y otras no, pero si en conjunto ayudan más de lo que confunden, pueden dar una ventaja. La clave está en valorar la amplitud de esa ventaja, ya que la información por sí sola no es suficiente: hay que convertirla en una decisión razonable en función de su magnitud. Y ahí vuelve la pregunta de Kelly: si la pista parece buena, ¿cuánto deberíamos arriesgar?</p>
+
+    <h2>Arriesgar lo justo para seguir jugando</h2>
+    <p>Kelly propone pensar qué parte del capital tiene sentido arriesgar cuando existe cierta ventaja. No plantea apostarlo todo, porque eso puede llevar a la ruina en una mala racha. Pero tampoco propone ser tan prudente que apenas se aproveche la ventaja. La idea está en encontrar un <strong>punto intermedio</strong> que permita crecer a largo plazo sin asumir un riesgo excesivo.</p>
+    <div class="analogy">
+      <div class="lbl">Una forma de entenderlo</div>
+      <p>Piensa en un coche. Si vas demasiado despacio, tardarás mucho en llegar. Pero si vas con el acelerador a fondo todo el tiempo, puede que avances rápido al principio, aunque aumentas mucho la posibilidad de avería o de estrellarte en la primera curva complicada. El criterio de Kelly busca esa "velocidad" razonable que te permite avanzar lo máximo posible sin conducir de manera temeraria.</p>
+    </div>
+    <p>Llevado al mundo de las finanzas, lo que plantea Kelly es que una buena estrategia de inversión necesita no solo una señal de entrada, sino también una <strong>regla para decidir el tamaño de cada operación</strong>, que te permita invertir lo adecuado en cada momento, protegiéndote cuando lleguen las pérdidas.</p>
+
+    <h2>Lo que Kelly enseña a los inversores hoy</h2>
+    <p>Aunque el artículo se publicó en 1956, su idea sigue teniendo sentido en las finanzas actuales. En el <strong>trading algorítmico</strong>, por ejemplo, un sistema no solo debe decidir cuándo comprar o vender, sino también cuánto capital asignar a cada operación. Esa cantidad se entiende como una fracción del capital total, calculada según la fiabilidad de la ventaja que se cree tener. Aunque parezca una decisión menos llamativa, muchas veces marca la diferencia entre una estrategia estable y una demasiado arriesgada.</p>
+    <p>Algo parecido ocurre en la <strong>construcción de carteras</strong>: no basta con encontrar activos interesantes, también hay que decidir qué peso tendrá cada uno, porque una mala distribución puede hacer que una sola posición tenga demasiado impacto en los resultados. Esto se conoce como gestión del riesgo y es tan importante como saber cuándo entrar o salir.</p>
+    <p>Aun así, conviene recalcar que el criterio de Kelly no es ninguna receta mágica. En los mercados reales hay mucho ruido y las probabilidades no se conocen con total seguridad: una ventaja que parecía clara puede no serlo. Por eso, en la práctica, muchos inversores aplican el criterio con prudencia o reducen la fracción recomendada, no porque el razonamiento no sea útil, sino porque las estimaciones nunca son perfectas.</p>
+
+    <h2>Ganar también consiste en no quedarse fuera</h2>
+    <p>Después de leer a Kelly, la idea que prevalece es bastante simple: una buena oportunidad no sirve de mucho si nos obliga a asumir un riesgo que no podemos soportar. En las inversiones, <strong>acertar importa, pero resistir también</strong>. Una estrategia puede tener sentido y aun así pasar por malas rachas.</p>
+    <div class="closing">
+      <p class="q">Por eso, antes de preguntarnos cuánto podemos ganar, conviene hacerse una pregunta menos espectacular pero igual de importante: ¿cuánto podemos perder sin quedarnos fuera del juego?</p>
+    </div>
+  </div>
+</article>
+
+<div class="article-foot">
+  <div class="article-wrap">
+    <p>Más sobre datos, riesgo e inversión en mi perfil.</p>
+    <a href="index.html#contacto" class="btn">Contactar →</a>
+  </div>
+</div>
+
+</body>
+</html>
