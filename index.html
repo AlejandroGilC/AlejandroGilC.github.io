@@ -197,6 +197,20 @@ section{padding:110px 0;position:relative}
 .media-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:rgba(255,255,255,.65);text-align:center;padding:24px;gap:12px}
 .media-placeholder .ic{font-size:2.4rem;opacity:.7}
 .media-placeholder code{background:rgba(255,255,255,.1);padding:3px 8px;border-radius:3px;font-size:.78rem;color:var(--gold-light)}
+.slides-download{
+  margin-top:auto;position:relative;width:100%;aspect-ratio:16/9;
+  background:
+    radial-gradient(circle at 25% 30%, rgba(39,163,122,.18), transparent 55%),
+    radial-gradient(circle at 80% 75%, rgba(200,162,74,.18), transparent 55%),
+    linear-gradient(150deg,var(--navy),var(--navy-deep));
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:28px;text-align:center;
+}
+.slides-download .deck-ic{display:flex;gap:6px}
+.slides-download .deck-ic span{width:26px;height:34px;border-radius:2px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2)}
+.slides-download .deck-ic span:nth-child(2){background:rgba(224,192,116,.25);border-color:rgba(224,192,116,.4)}
+.slides-download p{color:rgba(232,237,243,.75);font-size:.9rem;max-width:30ch}
+.slides-download .btn-gold{display:inline-flex;align-items:center;gap:9px;padding:13px 24px;border-radius:2px;font-size:.95rem;font-weight:600;background:var(--gold);color:var(--navy-deep);transition:all .25s ease}
+.slides-download .btn-gold:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:var(--shadow)}
 
 /* ---------- BLOG ---------- */
 #blog{background:var(--paper)}
@@ -466,11 +480,7 @@ footer{padding:40px 0;text-align:center;font-size:.85rem;color:rgba(232,237,243,
           <p>Una introducción breve a mi perfil profesional.</p>
         </div>
         <div class="media-frame">
-          <!-- VIDEO: pega aquí el iframe de Drive/YouTube. Mira las instrucciones que te paso en el chat. -->
-          <div class="media-placeholder">
-            <span class="ic">▶</span>
-            <span>Aquí irá el vídeo de presentación.<br>Pega el enlace de Drive en <code>index.html</code></span>
-          </div>
+          <iframe src="https://drive.google.com/file/d/1oFLa_HABGn5CH9vPcJLE_6g6mtzwO2hY/preview" allow="autoplay" allowfullscreen></iframe>
         </div>
       </div>
       <div class="pres-card reveal">
@@ -479,12 +489,10 @@ footer{padding:40px 0;text-align:center;font-size:.85rem;color:rgba(232,237,243,
           <h3>Diapositivas</h3>
           <p>El soporte visual que acompaña a la presentación.</p>
         </div>
-        <div class="media-frame">
-          <!-- SLIDES: pega aquí el iframe de las slides (Drive/Canva/Slides). -->
-          <div class="media-placeholder">
-            <span class="ic">▦</span>
-            <span>Aquí irán las diapositivas.<br>Pega el enlace en <code>index.html</code></span>
-          </div>
+        <div class="slides-download">
+          <div class="deck-ic"><span></span><span></span><span></span></div>
+          <p>Descarga las diapositivas de mi presentación profesional en PDF.</p>
+          <a href="Presentacion_Alejandro_Gil.pdf" download class="btn-gold">↓ Descargar slides (PDF)</a>
         </div>
       </div>
     </div>
